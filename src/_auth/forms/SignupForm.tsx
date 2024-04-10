@@ -47,6 +47,7 @@ const SignupForm = () => {
         email: user.email,
         password: user.password,
       });
+      
 
       if (!session) {
         toast({ title: "Something went wrong. Please login your new account", });
@@ -57,7 +58,7 @@ const SignupForm = () => {
       }
 
       const isLoggedIn = await checkAuthUser();
-
+     console.log(isLoggedIn)
       if (isLoggedIn) {
         form.reset();
 

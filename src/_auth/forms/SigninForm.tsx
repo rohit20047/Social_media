@@ -31,15 +31,16 @@ const SigninForm = () => {
 
   const handleSignin = async (user: z.infer<typeof SigninValidation>) => {
     const session = await signInAccount(user);
-
+  
     if (!session) {
+     
       toast({ title: "Login failed. Please try again." });
       
       return;
     }
 
     const isLoggedIn = await checkAuthUser();
-
+     console.log(isLoggedIn)
     if (isLoggedIn) {
       form.reset();
 

@@ -2,6 +2,7 @@ import { ID, Query } from "appwrite";
 
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
+import { log } from "console";
 
 // ============================================================
 // AUTH
@@ -84,16 +85,19 @@ export async function getAccount() {
 export async function getCurrentUser() {
   try {
     const currentAccount = await getAccount();
-
+ console.log(currentAccount)
     if (!currentAccount) throw Error;
-
+    console.log(currentAccount);
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
       [Query.equal("accountId", currentAccount.$id)]
     );
 
-    if (!currentUser) throw Error;
+    
+    if (!currentUser){
+      console.log("here")
+      throw Error;} 
 
     return currentUser.documents[0];
   } catch (error) {
@@ -121,8 +125,9 @@ export async function signOutAccount() {
 export async function createPost(post: INewPost) {
   try {
     // Upload file to appwrite storage
+  console.log(post)
     const uploadedFile = await uploadFile(post.file[0]);
-
+       console.log(uploadedFile)
     if (!uploadedFile) throw Error;
 
     // Get file url
@@ -163,6 +168,7 @@ export async function createPost(post: INewPost) {
 
 // ============================== UPLOAD FILE
 export async function uploadFile(file: File) {
+  console.log("file",file)
   try {
     const uploadedFile = await storage.createFile(
       appwriteConfig.storageId,
